@@ -4,7 +4,8 @@ services:
   web:
     build: .
     working_dir: /app
-    command: bash -lc "bin/rails s -b 0.0.0.0"
+    entrypoint: ["/app/bin/docker-entrypoint"]
+    command: ["./bin/rails", "server", "-b", "0.0.0.0", "-p", "3000"]
     volumes:
       - .:/app
       - bundle:/usr/local/bundle
@@ -12,6 +13,7 @@ services:
       - "3000:3000"
     environment:
       - RAILS_ENV=development
+      - BUNDLE_WITHOUT=
       - DATABASE_URL=mysql2://rails:password@db:3306/labo_development
     depends_on:
       db:
@@ -37,4 +39,3 @@ services:
 volumes:
   bundle:
   mysql-data:
-
