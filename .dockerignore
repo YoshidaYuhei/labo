@@ -1,0 +1,10 @@
+.git
+node_modules
+tmp
+log
+vendor/bundle
+storage
+.bundle
+.env
+.DS_Store
+

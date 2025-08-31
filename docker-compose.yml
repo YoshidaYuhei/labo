@@ -1,0 +1,40 @@
+version: "3.9"
+
+services:
+  web:
+    build: .
+    working_dir: /app
+    command: bash -lc "bin/rails s -b 0.0.0.0"
+    volumes:
+      - .:/app
+      - bundle:/usr/local/bundle
+    ports:
+      - "3000:3000"
+    environment:
+      - RAILS_ENV=development
+      - DATABASE_URL=mysql2://rails:password@db:3306/labo_development
+    depends_on:
+      db:
+        condition: service_healthy
+
+  db:
+    image: mysql:8.0.43
+    environment:
+      - MYSQL_ROOT_PASSWORD=root
+      - MYSQL_DATABASE=labo_development
+      - MYSQL_USER=rails
+      - MYSQL_PASSWORD=password
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql-data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "127.0.0.1", "-uroot", "-proot"]
+      interval: 5s
+      timeout: 2s
+      retries: 20
+
+volumes:
+  bundle:
+  mysql-data:
+
