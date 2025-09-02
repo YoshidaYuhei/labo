@@ -19,6 +19,22 @@ services:
       db:
         condition: service_healthy
 
+  type_labo:
+    image: node:20-alpine
+    working_dir: /app
+    command: sh -c "npm install && npm run dev"
+    ports:
+      - "3001:3001"
+    environment:
+      - NODE_ENV=development
+      - WATCHPACK_POLLING=true
+    volumes:
+      - ./type_labo:/app
+      - frontend-node-modules:/app/node_modules
+    # Uncomment if the frontend should wait for backend
+    # depends_on:
+    #   - web
+
   db:
     image: mysql:8.0.43
     environment:
@@ -39,3 +55,4 @@ services:
 volumes:
   bundle:
   mysql-data:
+  frontend-node-modules:
