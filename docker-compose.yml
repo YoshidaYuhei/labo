@@ -12,6 +12,7 @@ services:
     ports:
       - "3000:3000"
     environment:
+      - PATH=/app/bin:$PATH
       - RAILS_ENV=development
       - BUNDLE_WITHOUT=
       - DATABASE_URL=mysql2://rails:password@db:3306/labo_development
