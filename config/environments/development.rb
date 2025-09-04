@@ -12,6 +12,8 @@ Rails.application.configure do
   # Show full error reports.
   config.consider_all_requests_local = true
 
+  config.hosts.clear # 開発環境ではどのホストでも受け入れる
+
   # Enable server timing.
   config.server_timing = true
 
