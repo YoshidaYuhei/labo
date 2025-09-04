@@ -26,4 +26,3 @@ RSpec.configure do |config|
   # Filter backtraces for cleaner output
   config.filter_rails_from_backtrace!
 end
-
