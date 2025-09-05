@@ -14,8 +14,6 @@ services:
     environment:
       - PATH=/app/bin:$PATH
       - RAILS_ENV=development
-      - BUNDLE_WITHOUT=
-      - DATABASE_URL=mysql2://rails:password@db:3306/labo_development
     depends_on:
       db:
         condition: service_healthy
