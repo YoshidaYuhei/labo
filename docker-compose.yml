@@ -3,19 +3,18 @@ version: "3.9"
 services:
   web:
     build: .
-    working_dir: /app
-    entrypoint: ["/app/bin/docker-entrypoint"]
-    command: ["./bin/rails", "server", "-b", "0.0.0.0", "-p", "3000"]
+    # 起動時に bundle install → bin/dev で開発サーバ
+    command: bash -lc "bundle install && bin/rails server -b 0.0.0.0 -p 3000"
     volumes:
       - .:/app
-      - bundle:/usr/local/bundle
+      - bundle:/bundle
     ports:
       - "3000:3000"
     env_file:
       - .env
     environment:
-      - PATH=/app/bin:$PATH
       - RAILS_ENV=development
+      - PATH=/app/bin:$PATH
     depends_on:
       db:
         condition: service_healthy
