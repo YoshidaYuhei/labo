@@ -14,6 +14,8 @@ Things you may want to cover:
 ## Configuration
 
 ## Database creation
+### rails console での接続確認
+`ActiveRecord::Base.connection_pool.with_connection { it.active? }`
 
 ## Database initialization
 
