@@ -3,19 +3,18 @@ version: "3.9"
 services:
   web:
     build: .
-    working_dir: /app
-    entrypoint: ["/app/bin/docker-entrypoint"]
-    command: ["./bin/rails", "server", "-b", "0.0.0.0", "-p", "3000"]
+    # 起動時に bundle install → bin/dev で開発サーバ
+    command: bash -lc "bundle install && bin/rails server -b 0.0.0.0 -p 3000"
     volumes:
       - .:/app
-      - bundle:/usr/local/bundle
+      - bundle:/bundle
     ports:
       - "3000:3000"
+    env_file:
+      - .env
     environment:
-      - PATH=/app/bin:$PATH
       - RAILS_ENV=development
-      - BUNDLE_WITHOUT=
-      - DATABASE_URL=mysql2://rails:password@db:3306/labo_development
+      - PATH=/app/bin:$PATH
     depends_on:
       db:
         condition: service_healthy
@@ -39,14 +38,17 @@ services:
   db:
     image: mysql:8.0.43
     environment:
-      - MYSQL_ROOT_PASSWORD=root
-      - MYSQL_DATABASE=labo_development
-      - MYSQL_USER=rails
-      - MYSQL_PASSWORD=password
+      MYSQL_ROOT_HOST: '%'
+      MYSQL_ROOT_PASSWORD: password
+      MYSQL_DATABASE: app_development
+      MYSQL_USER: db_user
+      MYSQL_PASSWORD: password
+      MYSQL_PORT: 3306
     ports:
-      - "3306:3306"
+      - '${MYSQL_PORT}:${MYSQL_PORT}'
     volumes:
       - mysql-data:/var/lib/mysql
+    command: --default-authentication-plugin=mysql_native_password
     healthcheck:
       test: ["CMD", "mysqladmin", "ping", "-h", "127.0.0.1", "-uroot", "-proot"]
       interval: 5s

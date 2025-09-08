@@ -1,3 +1,4 @@
 [submodule "type_labo"]
 	path = type_labo
 	url = https://github.com/YoshidaYuhei/type_labo.git
+	ignore = all
