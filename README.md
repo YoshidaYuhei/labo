@@ -17,6 +17,9 @@ Things you may want to cover:
 ### rails console での接続確認
 `ActiveRecord::Base.connection_pool.with_connection { it.active? }`
 
+### ridgepole コマンド
+`docker compose run --rm web bundle exec ridgepole -c config/database.yml -s primary -a -f db/Schemafile'`
+
 ## Database initialization
 
 ## How to run the test suite
