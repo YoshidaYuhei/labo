@@ -1,4 +1,4 @@
-# syntax=docker/dockerfile:1
+# syntax=docker/dockerfile:1.9
 # check=error=true
 
 # This Dockerfile is designed for production, not development. Use with Kamal or build'n'run by hand:
@@ -9,19 +9,15 @@
 
 # Make sure RUBY_VERSION matches the Ruby version in .ruby-version
 ARG RUBY_VERSION=3.4.5
-FROM docker.io/library/ruby:$RUBY_VERSION-slim AS base
+FROM ruby:3.4.1-slim-bookworm AS ruby
 
 ENV LANGUAGE=ja_JP:ja_JP
 ENV LANG=ja_JP.UTF-8
 ENV TZ=Asia/Tokyo
-# 複数のGemを並列にコンパイルする
 ENV BUNDLE_JOBS=4
 ENV BUNDLE_RETRY=3
 # 記述されてるGemはすべてインストールする
 ENV BUNDLE_WITHOUT=""
-ENV BUNDLE_PATH=/bundle
-
-WORKDIR /app
 
 # Install base packages (include build tools for dev 'bundle install')
 RUN apt-get update -qq && \
@@ -37,11 +33,17 @@ RUN apt-get update -qq && \
       pkg-config && \
     rm -rf /var/lib/apt/lists /var/cache/apt/archives
 
+RUN mkdir -p /app
+RUN gem install -N bundler
+
+WORKDIR /app
+COPY Gemfile Gemfile.lock /app/
+
 # Run and own only the runtime files as a non-root user for security
 RUN groupadd --system --gid 1000 rails && \
     useradd rails --uid 1000 --gid 1000 --create-home --shell /bin/bash && \
     mkdir -p db log storage tmp && \
-    chown -R rails:rails db log storage tmp
+    chown -R rails:rails db log storage tmp /usr/local/bundle
 USER 1000:1000
 
 EXPOSE 3000
