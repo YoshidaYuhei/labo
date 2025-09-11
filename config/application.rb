@@ -29,5 +29,7 @@ module App
       g.test_framework :rspec
       g.system_tests nil
     end
+    # ridgepole で管理するため、migration 後に schema.rb を作成しない
+    config.active_record.dump_schema_after_migration = false
   end
 end
