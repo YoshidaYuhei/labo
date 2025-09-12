@@ -16,20 +16,38 @@ default: &default
   username: <%= ENV.fetch("MYSQL_USERNAME") { 'db_user' } %>
   password: <%= ENV.fetch("MYSQL_PASSWORD") { 'password' } %>
   port: <%= ENV.fetch("MYSQL_PORT") { '3306' } %>
+  charset: utf8mb4
+  collation: utf8mb4_bin
 
 
 development:
-  <<: *default
-  database: app_development
-  host: <%= ENV.fetch("MYSQL_HOST") { '127.0.0.1' } %>
+  primary:
+    <<: *default
+    database: app_development
+    host: <%= ENV.fetch("MYSQL_HOST") { '127.0.0.1' } %>
+  primary_replica:
+    <<: *default
+    database: app_development
+    host: <%= ENV.fetch("MYSQL_READONLY_HOST", ENV.fetch("MYSQL_HOST", "127.0.0.1")) %>
+    replica: true
+    username: <%= ENV.fetch("MYSQL_READONLY_USER", ENV.fetch("MYSQL_USER", "db_user")) %>
+    password: <%= ENV.fetch("MYSQL_READONLY_PASSWORD", ENV.fetch("MYSQL_PASSWORD", "password")) %>
 
 # Warning: The database defined as "test" will be erased and
 # re-generated from your development database when you run "rake".
 # Do not set this db to the same as development or production.
 test:
-  <<: *default
-  database: app_test
-  host: <%= ENV.fetch("MYSQL_HOST") { '127.0.0.1' } %>
+  primary:
+    <<: *default
+    database: app_test
+    host: <%= ENV.fetch("MYSQL_HOST") { '127.0.0.1' } %>
+  primary_replica:
+    <<: *default
+    database: app_test
+    host: <%= ENV.fetch("MYSQL_READONLY_HOST", ENV.fetch("MYSQL_HOST", "127.0.0.1")) %>
+    replica: true
+    username: <%= ENV.fetch("MYSQL_READONLY_USER", ENV.fetch("MYSQL_USER", "db_user")) %>
+    password: <%= ENV.fetch("MYSQL_READONLY_PASSWORD", ENV.fetch("MYSQL_PASSWORD", "password")) %>
 
 # As with config/credentials.yml, you never want to store sensitive information,
 # like your database password, in your source code. If your source code is
@@ -57,15 +75,10 @@ production:
     database: app_production
     username: app
     password: <%= ENV["APP_DATABASE_PASSWORD"] %>
-  cache:
-    <<: *primary_production
-    database: app_production_cache
-    migrations_paths: db/cache_migrate
-  queue:
-    <<: *primary_production
-    database: app_production_queue
-    migrations_paths: db/queue_migrate
-  cable:
-    <<: *primary_production
-    database: app_production_cable
-    migrations_paths: db/cable_migrate
+  primary_replica:
+    <<: *default
+    database: app_production
+    host: <%= ENV.fetch("MYSQL_READONLY_HOST", ENV.fetch("MYSQL_HOST", "127.0.0.1")) %>
+    replica: true
+    username: <%= ENV.fetch("MYSQL_READONLY_USER", ENV.fetch("MYSQL_USER", "db_user")) %>
+    password: <%= ENV.fetch("MYSQL_READONLY_PASSWORD", ENV.fetch("MYSQL_PASSWORD", "password")) %>
