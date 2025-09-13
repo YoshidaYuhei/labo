@@ -30,7 +30,8 @@ RUN apt-get update -qq && \
       default-libmysqlclient-dev \
       git \
       libyaml-dev \
-      pkg-config && \
+      pkg-config \
+      vim && \
     rm -rf /var/lib/apt/lists /var/cache/apt/archives
 
 RUN mkdir -p /app
