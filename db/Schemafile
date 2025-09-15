@@ -30,3 +30,13 @@ create_table :accounts,
   t.index :confirmation_token,   unique: true, length: { confirmation_token: 191 }
   t.index :unlock_token,         unique: true, length: { unlock_token: 191 }
 end
+
+create_table :jwt_denylists,
+             charset: 'utf8mb4',
+             collation: 'utf8mb4_bin',
+             primary_key: :id,
+             force: :cascade, comment: 'JWT無効化リスト' do |t|
+  t.string   :jti, null: false, comment: 'JWT ID'
+  t.datetime :exp, null: false, comment: '有効期限'
+  t.index :jti, name: 'index_jwt_denylists_on_jti'
+end
