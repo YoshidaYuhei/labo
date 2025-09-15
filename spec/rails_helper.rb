@@ -25,4 +25,7 @@ RSpec.configure do |config|
 
   # Filter backtraces for cleaner output
   config.filter_rails_from_backtrace!
+
+  # create(:account) などメソッドが使えるようになる
+  config.include FactoryBot::Syntax::Methods
 end
