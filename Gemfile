@@ -39,6 +39,9 @@ gem "thruster", require: false
 
 gem "ridgepole"
 
+gem "devise"
+gem "devise-jwt"
+
 # Use Active Storage variants [https://guides.rubyonrails.org/active_storage_overview.html#transforming-images]
 # gem "image_processing", "~> 1.2"
 
@@ -53,6 +56,9 @@ group :development, :test do
 
   # RSpec testing framework for Rails
   gem "rspec-rails"
+
+  gem 'factory_bot_rails'
+  gem 'faker'
 end
 
 group :development do
@@ -64,4 +70,6 @@ group :test do
   # Use system testing [https://guides.rubyonrails.org/testing.html#system-testing]
   gem "capybara"
   gem "selenium-webdriver"
+
+  gem 'shoulda-matchers'
 end
