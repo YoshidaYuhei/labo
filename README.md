@@ -20,10 +20,8 @@ Things you may want to cover:
 ### ridgepole コマンド
 `docker compose run --rm web bundle exec ridgepole -c config/database.yml -s primary -a -f db/Schemafile'`
 
-## Database initialization
+## Rswag
+OpenAPI 生成
+`bundle exec rake rswag:specs:swaggerize`
 
-## How to run the test suite
 
-## Services (job queues, cache servers, search engines, etc.)
-
-## Deployment instructions
