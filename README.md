@@ -24,4 +24,10 @@ Things you may want to cover:
 OpenAPI 生成
 `bundle exec rake rswag:specs:swaggerize`
 
+# 構築
 
+以下のコマンドを実行する
+
+## RAILS_ENVの設定
+Rspecではtest環境にするためコンテナを起動してから設定する
+`docker compose run --rm web bin/rails db:environment:set RAILS_ENV=development`
