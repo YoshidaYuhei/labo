@@ -454,6 +454,7 @@ DEPENDENCIES
   jbuilder
   kamal
   propshaft
+  pry
   pry-byebug
   pry-rails
   puma (>= 5.0)
