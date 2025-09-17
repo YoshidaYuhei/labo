@@ -10,9 +10,9 @@ RSpec.describe 'HealthCheck', type: :request do
 
       response '200', 'OK' do
         schema type: :object,
-               required: ['status'],
+               required: [ 'status' ],
                properties: {
-                 status: { type: :string, enum: ['ok'] }
+                 status: { type: :string, enum: [ 'ok' ] }
                }
 
         run_test!

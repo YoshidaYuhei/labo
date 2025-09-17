@@ -2,7 +2,7 @@ require 'rails_helper'
 
 RSpec.describe Account do
   let(:factories_to_lint) do
-    FactoryBot.factories.select { it.name == described_class.name.underscore.to_sym}
+    FactoryBot.factories.select { it.name == described_class.name.underscore.to_sym }
   end
 
   it do

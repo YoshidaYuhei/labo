@@ -52,17 +52,18 @@ group :development, :test do
   gem "brakeman", require: false
 
   # Omakase Ruby styling [https://github.com/rails/rubocop-rails-omakase/]
+  gem "rubocop"
   gem "rubocop-rails-omakase", require: false
 
   # RSpec testing framework for Rails
   gem "rspec-rails"
 
-  gem 'factory_bot_rails'
-  gem 'faker'
+  gem "factory_bot_rails"
+  gem "faker"
 
-  gem 'rswag-api'
-  gem 'rswag-ui'
-  gem 'rswag-specs'
+  gem "rswag-api"
+  gem "rswag-ui"
+  gem "rswag-specs"
 end
 
 group :development do
@@ -75,5 +76,5 @@ group :test do
   gem "capybara"
   gem "selenium-webdriver"
 
-  gem 'shoulda-matchers'
+  gem "shoulda-matchers"
 end
