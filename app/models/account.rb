@@ -36,7 +36,6 @@ class Account < ApplicationRecord
          :recoverable,
          :rememberable,
          :validatable,
-         :confirmable,
          :jwt_authenticatable,
          jwt_revocation_strategy: JwtDenylist
 end

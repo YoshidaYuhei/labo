@@ -24,6 +24,65 @@ paths:
                     type: string
                     enum:
                     - ok
+  "/api/v1/accounts":
+    post:
+      summary: アカウント登録
+      tags:
+      - Auth
+      security: []
+      parameters: []
+      responses:
+        '201':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                - status
+                properties:
+                  status:
+                    type: string
+                    enum:
+                    - ok
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                - status
+                properties:
+                  status:
+                    type: string
+                    enum:
+                    - error
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - account
+              properties:
+                account:
+                  type: object
+                  required:
+                  - email
+                  - password
+                  - password_confirmation
+                  properties:
+                    email:
+                      type: string
+                      format: email
+                    password:
+                      type: string
+                      minLength: 6
+                    password_confirmation:
+                      type: string
+                      minLength: 6
+        required: true
 servers:
 - url: http://localhost:3000
   variables:

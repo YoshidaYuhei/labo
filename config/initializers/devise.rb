@@ -317,6 +317,7 @@ Devise.setup do |config|
     # 秘密鍵は credentials から
     jwt.secret = Rails.application.credentials.devise_jwt_secret_key
     jwt.dispatch_requests = [
+      [ "POST", %r{^/api/v1/accounts$} ],
       [ "POST", %r{^/api/v1/auth/login$} ]
     ]
     jwt.revocation_requests = [
