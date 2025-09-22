@@ -16,6 +16,13 @@ module Api
           end
         end
 
+        # DELETE /api/v1/accounts/sign_out
+        def destroy
+          warden.authenticate!(:jwt, scope: resource_name)
+          sign_out(resource_name)
+          head :no_content
+        end
+
         private
 
         def create_params

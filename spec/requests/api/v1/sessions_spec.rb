@@ -62,4 +62,30 @@ RSpec.describe 'Accounts::Sessions', type: :request do
       end
     end
   end
+
+  path '/api/v1/accounts/sign_out' do
+    delete 'ログアウト' do
+      tags 'Auth'
+      produces 'application/json'
+      security [{ bearerAuth: [] }]
+    
+      parameter name: :Authorization, in: :header, required: true, schema: {
+        type: :string,
+        description: 'JWTトークン',
+        example: 'Bearer <JWTトークン>'
+      }
+
+      response '204', 'No Content' do
+        let(:account) { create(:account) }
+        let(:Authorization) { auth_headers_for(account) }
+        it 'ログアウトできる' do |example|
+          account = create(:account)
+          post '/api/v1/accounts/sign_in', params: { account: { email: account.email, password: account.password } }, as: :json
+
+          submit_request(example.metadata)
+          expect(response.status).to eq(204)
+        end
+      end
+    end
+  end
 end

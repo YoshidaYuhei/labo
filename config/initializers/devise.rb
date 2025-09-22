@@ -320,10 +320,8 @@ Devise.setup do |config|
       [ "POST", %r{^/api/v1/accounts$} ],
       [ "POST", %r{^/api/v1/accounts/sign_in$} ]
     ]
-    jwt.revocation_requests = [
-      [ "DELETE", %r{^/api/v1/accounts/sign_out$} ]
-    ]
+    jwt.revocation_requests = []
     jwt.expiration_time = 30.minutes.to_i
-    jwt.request_formats = { account: [ :json ] }
+    jwt.request_formats = { account: [ :json, nil ] }
   end
 end
