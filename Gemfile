@@ -42,10 +42,13 @@ gem "ridgepole"
 gem "devise"
 gem "devise-jwt"
 
+gem "rack-cors"
+
 # Use Active Storage variants [https://guides.rubyonrails.org/active_storage_overview.html#transforming-images]
 # gem "image_processing", "~> 1.2"
 
 group :development, :test do
+  gem "pry"
   gem "pry-rails"     # rails console を pry に置き換える
   gem "pry-byebug"    # step, next, continue などステップ実行できる
   # Static analysis for security vulnerabilities [https://brakemanscanner.org/]

@@ -11,7 +11,6 @@ services:
     env_file:
       - .env
     environment:
-      - RAILS_ENV=development
       - PATH=/app/bin:$PATH
     depends_on:
       db:

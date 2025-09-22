@@ -317,12 +317,11 @@ Devise.setup do |config|
     # 秘密鍵は credentials から
     jwt.secret = Rails.application.credentials.devise_jwt_secret_key
     jwt.dispatch_requests = [
-      [ "POST", %r{^/api/v1/auth/login$} ]
+      [ "POST", %r{^/api/v1/accounts$} ],
+      [ "POST", %r{^/api/v1/accounts/sign_in$} ]
     ]
-    jwt.revocation_requests = [
-      [ "DELETE", %r{^/api/v1/auth/logout$} ]
-    ]
+    jwt.revocation_requests = []
     jwt.expiration_time = 30.minutes.to_i
-    jwt.request_formats = { account: [ :json ] }
+    jwt.request_formats = { account: [ :json, nil ] }
   end
 end
