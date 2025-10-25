@@ -1,3 +1,7 @@
+---
+allowed-tools: Bash(gh issue view:*)
+---
+
 # Issue テスト実装コマンド
 
 このコマンドは、GitHub Issue の仕様を理解し、RSpec + Rswag によるテストコードを実装します。

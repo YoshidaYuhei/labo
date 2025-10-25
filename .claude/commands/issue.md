@@ -1,3 +1,7 @@
+---
+allowed-tools: Bash(gh issue view:*)
+---
+
 # Issue 仕様理解コマンド
 
 このコマンドは、GitHub Issue を読み込んで仕様を理解し、メモリに保存します。

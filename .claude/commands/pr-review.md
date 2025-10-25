@@ -1,3 +1,6 @@
+---
+allowed-tools: Bash(gh issue view:*), Bash(gh pr view:*), Bash(gh pr diff:*)
+---
 # PR レビューコマンド
 
 このコマンドは、GitHub Pull Request の変更内容を分析し、コードレビューを実施します。
