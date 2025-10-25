@@ -12,6 +12,9 @@ This is a Rails 8.0.3 API application with a separate Next.js frontend, using:
 - **API Documentation**: Rswag for OpenAPI/Swagger documentation
 - **Testing**: RSpec with FactoryBot, Faker, and Shoulda Matchers
 
+## 守るべきルール
+- サブエージェントの frontend は明示的に指示するまで利用してはいけない
+
 ## Development Environment
 
 ### Using Docker Compose
