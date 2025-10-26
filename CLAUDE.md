@@ -9,7 +9,7 @@ This is a Rails 8.0.3 API application with a separate Next.js frontend, using:
 - **Frontend**: Next.js 15 with TypeScript and React Native Web (in `type_labo/` directory)
 - **Authentication**: Devise + Devise-JWT for token-based authentication
 - **Database Management**: Ridgepole for schema management
-- **API Documentation**: Rswag for OpenAPI/Swagger documentation
+- **API Documentation**: OpenAPI spec (`public/doc/swagger.yml`) with Swagger UI and committee-rails for schema validation
 - **Testing**: RSpec with FactoryBot, Faker, and Shoulda Matchers
 
 ## 守るべきルール
@@ -46,9 +46,6 @@ bundle exec rspec spec/models/account_spec.rb
 
 # Run specific test by line number
 bundle exec rspec spec/models/account_spec.rb:10
-
-# Generate OpenAPI documentation from specs
-bundle exec rake rswag:specs:swaggerize
 ```
 
 ### Database Management
@@ -117,7 +114,7 @@ The application uses a multi-database setup with primary and primary_replica con
 ### Backend
 - `ridgepole`: Schema management (alternative to migrations)
 - `devise` + `devise-jwt`: Authentication
-- `rswag-api`, `rswag-ui`, `rswag-specs`: OpenAPI documentation
+- `committee-rails`: OpenAPI schema validation for tests
 - `pry-rails`, `pry-byebug`: Debugging tools
 - `solid_cache`, `solid_queue`, `solid_cable`: Rails 8 solid components
 
@@ -133,8 +130,9 @@ The application uses a multi-database setup with primary and primary_replica con
 
 1. Add route in `config/routes/api_v1.rb` under `namespace :api do namespace :v1`
 2. Create controller in `app/controllers/api/v1/`
-3. Add RSpec request spec in `spec/requests/api/v1/` with Rswag documentation
-4. Run `bundle exec rake rswag:specs:swaggerize` to update OpenAPI docs
+3. Update `public/doc/swagger.yml` with the new endpoint definition (ask Claude to help write the OpenAPI spec)
+4. Add RSpec request spec in `spec/requests/api/v1/` with `assert_response_schema_confirm(200)` for schema validation
+5. Verify the API documentation at `/api-docs` (Swagger UI)
 
 ### Schema Changes
 

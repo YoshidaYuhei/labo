@@ -5,6 +5,7 @@ abort("The Rails environment is running in production mode!") if Rails.env.produ
 
 require "rspec/rails"
 require 'shoulda/matchers'
+require 'committee/rails'
 
 # Dir[Rails.root.join("spec/support/**/*.rb")].sort.each { |f| require f }
 
@@ -29,6 +30,16 @@ RSpec.configure do |config|
 
   # create(:account) などメソッドが使えるようになる
   config.include FactoryBot::Syntax::Methods
+
+  # Committee (OpenAPI schema validation)
+  config.include Committee::Rails::Test::Methods, type: :request
+  config.add_setting :committee_options
+  config.committee_options = {
+    schema_path: Rails.root.join('public', 'doc', 'swagger.yml').to_s,
+    parse_response_by_content_type: true,
+    validate_success_only: false,
+    strict_reference_validation: true
+  }
 end
 
 Shoulda::Matchers.configure do |config|

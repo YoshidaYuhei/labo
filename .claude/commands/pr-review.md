@@ -1,3 +1,6 @@
+---
+allowed-tools: Bash(gh issue view:*), Bash(gh pr view:*), Bash(gh pr diff:*)
+---
 # PR レビューコマンド
 
 このコマンドは、GitHub Pull Request の変更内容を分析し、コードレビューを実施します。
@@ -43,8 +46,8 @@ gh pr diff {{args}}
 - ✅ ルーティングは `/api/v1` 配下で `config/routes/api_v1.rb` に定義されているか
 - ✅ コントローラは `app/controllers/api/v1/` に配置されているか
 - ✅ データベース変更は `db/Schemafile` で定義されているか（migrationファイルではない）
-- ✅ API ドキュメント（Rswag）が更新されているか
-- ✅ RSpec テストが含まれているか
+- ✅ API ドキュメント（`public/doc/swagger.yml`）が更新されているか
+- ✅ RSpec テストが含まれているか（`assert_response_schema_confirm` でスキーマ検証）
 - ✅ FactoryBot の定義が適切か
 - ✅ Devise/JWT 認証が適切に実装されているか（必要な場合）
 
@@ -85,7 +88,7 @@ gh pr diff {{args}}
 
 #### 3-6. ドキュメントのチェック
 
-- **API ドキュメント**: Rswag のドキュメントが更新されているか（Backend API変更の場合）
+- **API ドキュメント**: `public/doc/swagger.yml` が更新されているか（Backend API変更の場合）
 - **コメント**: 複雑なロジックに適切なコメントがあるか
 - **README**: 必要に応じて README が更新されているか
 
@@ -131,8 +134,8 @@ gh pr diff {{args}}
 - [x] ルーティング定義: ✅ / ⚠️ / ❌
 - [x] コントローラ配置: ✅ / ⚠️ / ❌
 - [x] Schemafile 使用: ✅ / ⚠️ / ❌ / N/A
-- [x] Rswag ドキュメント: ✅ / ⚠️ / ❌ / N/A
-- [x] RSpec テスト: ✅ / ⚠️ / ❌
+- [x] OpenAPI ドキュメント: ✅ / ⚠️ / ❌ / N/A
+- [x] RSpec テスト + スキーマ検証: ✅ / ⚠️ / ❌
 
 ### Frontend
 - [x] TypeScript 型定義: ✅ / ⚠️ / ❌ / N/A
