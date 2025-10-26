@@ -60,10 +60,6 @@ group :development, :test do
 
   gem "factory_bot_rails"
   gem "faker"
-
-  gem "rswag-api"
-  gem "rswag-ui"
-  gem "rswag-specs"
 end
 
 group :development do
@@ -79,4 +75,7 @@ group :test do
   gem "selenium-webdriver"
 
   gem "shoulda-matchers"
+
+  # OpenAPI schema validation
+  gem "committee-rails"
 end

@@ -1,22 +1,17 @@
 require "rails_helper"
-require 'swagger_helper'
 
-RSpec.describe 'HealthCheck', type: :request do
-  path '/api/v1/health_check' do
-    get 'ヘルスチェック' do
-      tags 'Health'
-      produces 'application/json'
-      security []
+RSpec.describe 'API V1 HealthCheck', type: :request do
+  describe 'GET /api/v1/health_check' do
+    it 'ヘルスチェックが成功する' do
+      get '/api/v1/health_check'
 
-      response '200', 'OK' do
-        schema type: :object,
-               required: [ 'status' ],
-               properties: {
-                 status: { type: :string, enum: [ 'ok' ] }
-               }
+      expect(response).to have_http_status(:ok)
+      expect(response.content_type).to match(/application\/json/)
 
-        run_test!
-      end
+      expect(response.parsed_body['status']).to eq('ok')
+
+      # OpenAPI schema validation
+      assert_response_schema_confirm(200)
     end
   end
 end

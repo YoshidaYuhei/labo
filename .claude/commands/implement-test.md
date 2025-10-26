@@ -4,7 +4,7 @@ allowed-tools: Bash(gh issue view:*)
 
 # Issue テスト実装コマンド
 
-このコマンドは、GitHub Issue の仕様を理解し、RSpec + Rswag によるテストコードを実装します。
+このコマンドは、GitHub Issue の仕様を理解し、RSpec + committee-rails によるテストコードを実装します。
 
 ## 使い方
 ```
@@ -16,8 +16,9 @@ allowed-tools: Bash(gh issue view:*)
 1. **Issue 仕様の読み込み**: メモリから `issue-<番号>` を読み込む（なければ `/issue` コマンド実行を促す）
 2. **既存コードの調査**: 関連するファイル構造とパターンを調査
 3. **テストコードの設計**: Issue の要件に基づいてテストケースを設計
-4. **テストコードの実装**: RSpec + Rswag でテストを実装
-5. **動作確認**: テストが正しく実行できることを確認
+4. **テストコードの実装**: RSpec + committee-rails でテストを実装
+5. **OpenAPI specの更新**: `public/doc/swagger.yml` に新しいエンドポイントを追加
+6. **動作確認**: テストが正しく実行できることを確認
 
 ## 実行手順
 
@@ -45,7 +46,7 @@ Issue の要件から、以下を設計：
 3. **必要なデータ**: FactoryBot で作成すべきテストデータ
 4. **期待される結果**: レスポンスコード、レスポンスボディの構造
 
-### ステップ4: RSpec + Rswag テストの実装
+### ステップ4: RSpec + committee-rails テストの実装
 
 プロジェクトのパターンに従って実装：
 
@@ -60,43 +61,32 @@ mkdir -p spec/requests/api/v1/<namespace>
 `spec/requests/api/v1/<namespace>/<endpoint>_spec.rb` を作成し、以下を含める：
 
 ```ruby
-require 'swagger_helper'
+require 'rails_helper'
 
 RSpec.describe 'API V1 <Resource>', type: :request do
-  path '/api/v1/<endpoint>' do
-    # Rswag ドキュメント定義
-    post 'エンドポイントの説明' do
-      tags '<Resource>'
-      consumes 'application/json'
-      produces 'application/json'
+  describe 'POST /api/v1/<endpoint>' do
+    context '正常系' do
+      it 'エンドポイントの説明' do
+        # テストデータの準備
+        params = { # テストデータ }
 
-      parameter name: :params, in: :body, schema: {
-        type: :object,
-        properties: {
-          # パラメータ定義
-        },
-        required: ['必須フィールド']
-      }
+        # リクエスト実行
+        post '/api/v1/<endpoint>', params: params, as: :json
 
-      # 正常系テスト
-      response '200', '成功' do
-        let(:params) { { # テストデータ } }
+        assert_response_schema_confirm(200)
 
-        run_test! do |response|
-          # アサーション
-          expect(response).to have_http_status(:ok)
-          json = JSON.parse(response.body)
-          # レスポンス検証
-        end
+        expect(response.parsed_body['key']).to eq('value')
       end
+    end
 
-      # 異常系テスト
-      response '422', 'バリデーションエラー' do
-        let(:params) { { # 不正なデータ } }
+    context '異常系' do
+      it 'バリデーションエラーを返す' do
+        # 不正なテストデータ
+        params = { # 不正なデータ }
 
-        run_test! do |response|
-          expect(response).to have_http_status(:unprocessable_entity)
-        end
+        post '/api/v1/<endpoint>', params: params, as: :json
+
+        assert_response_schema_confirm(422)
       end
     end
   end
@@ -125,16 +115,13 @@ bundle exec rspec spec/requests/api/v1/<namespace>/<endpoint>_spec.rb
 2. **結果の確認**:
    - すべてのテストがパスすることを確認
    - エラーがあれば修正
+   - committee-railsによるスキーマ検証が成功することを確認
 
-3. **Swagger ドキュメント生成**:
-```bash
-bundle exec rake rswag:specs:swaggerize
-```
-
-4. **ドキュメントの確認**:
+3. **ドキュメントの確認**:
    - `/api-docs` でSwagger UIを確認できることを伝える
+   - 新しく追加したエンドポイントが表示されることを確認
 
-### ステップ6: ユーザーへの報告
+### ステップ7: ユーザーへの報告
 
 以下を報告：
 - 作成したテストファイルのパス
@@ -146,7 +133,8 @@ bundle exec rake rswag:specs:swaggerize
 
 ### このプロジェクトでの規約
 - **テストフレームワーク**: RSpec
-- **APIドキュメント**: Rswag（OpenAPI 3.0）
+- **APIドキュメント**: OpenAPI 3.0（`public/doc/swagger.yml`）
+- **スキーマ検証**: committee-rails
 - **テストデータ**: FactoryBot + Faker
 - **マッチャー**: Shoulda Matchers
 
@@ -158,10 +146,11 @@ bundle exec rake rswag:specs:swaggerize
 - ✅ リソース不在（404）- 該当する場合
 - ✅ 権限エラー（403）- 該当する場合
 
-### Rswag の利点
-- テストコードから自動的に OpenAPI ドキュメントを生成
+### committee-rails の利点
+- OpenAPI specに基づいてレスポンスを自動検証
 - Swagger UI で API を視覚的に確認・テスト可能
-- ドキュメントとテストの二重管理を回避
+- `assert_response_schema_confirm(200)` でスキーマ準拠を保証
+- ドキュメントとテストの整合性を自動チェック
 
 ## 注意事項
 

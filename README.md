@@ -20,8 +20,4 @@ Things you may want to cover:
 ### ridgepole コマンド
 `docker compose run --rm web bundle exec ridgepole -c config/database.yml -s primary -a -f db/Schemafile'`
 
-## Rswag
-OpenAPI 生成
-`bundle exec rake rswag:specs:swaggerize`
-
 

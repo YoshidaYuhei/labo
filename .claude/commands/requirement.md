@@ -270,7 +270,8 @@
 ### Backend (Rails API)
 - APIエンドポイントは `/api/v1/` 配下か
 - Ridgepole (db/Schemafile) での Schema 変更か
-- Rswag でのAPI ドキュメント更新が必要か
+- OpenAPI ドキュメント (`public/doc/swagger.yml`) の更新が必要か
+- committee-rails でのスキーマ検証が必要か
 - Devise/JWT 認証が関わるか
 
 ### Frontend (Next.js)
